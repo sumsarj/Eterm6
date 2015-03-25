@@ -1,0 +1,5 @@
+_a	EQU	$600
+	ORG	$1000
+start		ADDA	#2
+		STAA	$601
+		JMP	start

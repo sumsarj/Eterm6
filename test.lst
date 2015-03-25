@@ -1,0 +1,11 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: test.lst
+       0000 0600            1. _a	EQU	$600
+001000                      2. 	ORG	$1000
+001000 B6 06 00             3. 		LDAA	_a
+001003 8B 02                4. start		ADDA	#2
+001005 7A 06 01             5. 		STAA	$601
+001008 06 10 03             6. 		JMP	start
