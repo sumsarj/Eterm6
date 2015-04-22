@@ -1,0 +1,82 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Drilltest2.lst
+                            1. ;Drilltest2.asm
+---- File: "D:\Dokument\GitHub\Eterm6\Lab1\Drilltest2.asm"
+                            2. 	USE	Labdefs.asm
+---- File: "Labdefs.asm"
+                            3. ; Adress till omkopplare och display
+       0000 0600            4. DipSwitch	EQU	$0600
+       0000 0400            5. HexDisplay	EQU	$0400
+                            6. ;Adress till borrmaskinens styrregister
+       0000 0400            7. DrillControl	EQU	$0400
+                            8. 
+                            9. ;.....borrmaskinens statusregister
+       0000 0401           10. DrillStatus	EQU	$0401001000                     11. 	ORG	$1000
+---- File: "D:\Dokument\GitHub\Eterm6\Lab1\Drilltest2.asm"
+001000 86 00               12. start:	LDAA	#0
+001002 7A 04 00            13. 	STAA	DrillControl
+001005 16 10 3B            14. 	JSR	TillRefPos
+001008 16 10 4A            15. 	JSR	Borra
+00100B 16 10 28            16. 	JSR	Vrid1Steg
+00100E 16 10 4A            17. 	JSR	Borra
+001011 16 10 28            18. 	JSR	Vrid1Steg
+001014 16 10 4A            19. 	JSR	Borra
+001017 16 10 28            20. 	JSR	Vrid1Steg
+00101A 16 10 28            21. 	JSR	Vrid1Steg
+00101D 16 10 28            22. 	JSR	Vrid1Steg
+001020 16 10 4A            23. 	JSR	Borra
+001023 16 10 71            24. 	JSR	GeLarm
+001026 20 FE               25. stopp:	BRA	stopp
+                           26. 
+001028                     27. Vrid1Steg:
+001028 86 02               28. 	LDAA	#2
+00102A BA 04 00            29. 	ORAA	DrillControl	;set bit1
+00102D 7A 04 00            30. 	STAA	DrillControl	;Medurs
+001030                     31. 	
+001030 8A 01               32. 	ORAA	#1		;set bit0
+001032 7A 04 00            33. 	STAA	DrillControl
+001035 84 FE               34. 	ANDA	#$FE
+001037 7A 04 00            35. 	STAA	DrillControl	;unset bit0
+00103A 3D                  36. 	RTS
+00103B                     37. TillRefPos:
+00103B 86 01               38. 	LDAA	#1
+00103D B4 04 01            39. 	ANDA	DrillStatus
+001040 81 01               40. 	CMPA	#1
+001042 27 05               41. 	BEQ	IsRef
+001044 16 10 28            42. 	JSR	Vrid1Steg
+001047 20 F2               43. 	BRA	TillRefPos
+001049 3D                  44. IsRef:	RTS
+00104A                     45. 	
+00104A                     46. Borra:
+00104A 86 04               47. 	LDAA	#4
+00104C BA 04 00            48. 	ORAA	DrillControl
+00104F 7A 04 00            49. 	STAA	DrillControl
+001052 8A 08               50. 	ORAA	#8
+001054 7A 04 00            51. 	STAA	DrillControl
+001057                     52. CheckIfDown:
+001057 86 04               53. 	LDAA	#4
+001059 B4 04 01            54. 	ANDA	DrillStatus
+00105C 81 04               55. 	CMPA	#4
+00105E 26 F7               56. 	BNE	CheckIfDown
+001060 86 F7               57. 	LDAA	#$F7
+001062 B4 04 00            58. 	ANDA	DrillControl
+001065 7A 04 00            59. 	STAA	DrillControl
+001068 86 FB               60. 	LDAA	#$FB
+00106A B4 04 00            61. 	ANDA	DrillControl
+00106D 7A 04 00            62. 	STAA	DrillControl
+001070 3D                  63. 	RTS
+001071                     64. 	
+001071                     65. 	
+001071                     66. 	
+001071                     67. 	
+001071                     68. 	
+001071                     69. 	
+001071                     70. GeLarm:
+001071 86 10               71. 	LDAA	#$10
+001073 BA 04 00            72. 	ORAA	DrillControl
+001076 7A 04 00            73. 	STAA	DrillControl
+001079 3D                  74. 	RTS
+00107A                     75. 	

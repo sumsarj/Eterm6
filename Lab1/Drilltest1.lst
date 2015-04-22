@@ -1,0 +1,22 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Drilltest1.lst
+                            1. ; Drilltest1.s12
+---- File: "D:\Dokument\GitHub\Eterm6\Lab1\Drilltest1.asm"
+                            2. 	USE	Labdefs.asm
+---- File: "Labdefs.asm"
+                            3. ; Adress till omkopplare och display
+       0000 0600            4. DipSwitch	EQU	$0600
+       0000 0400            5. HexDisplay	EQU	$0400
+                            6. ;Adress till borrmaskinens styrregister
+       0000 0400            7. DrillControl	EQU	$0400
+                            8. 
+                            9. ;.....borrmaskinens statusregister
+       0000 0401           10. DrillStatus	EQU	$0401001000                     11. 	ORG	$1000
+---- File: "D:\Dokument\GitHub\Eterm6\Lab1\Drilltest1.asm"
+001000                     12. Dtest1:
+001000 B6 06 00            13. 	LDAA	DipSwitch	;Läs styrord
+001003 7A 04 00            14. 	STAA	DrillControl	;Skriv styrord
+001006 20 F8               15. 	BRA	Dtest1

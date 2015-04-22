@@ -1,0 +1,39 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: DisplayML15.lst
+       0000 09C3            1. skrivport	EQU	$9C3
+       0000 09C2            2. styrord		EQU	$9C2
+                            3. 
+001000                      4. 	ORG	$1000
+001000 CE 10 2E             5. 	LDX	#tabell
+001003 16 10 08             6. start:	JSR	DisplayML15
+001006 20 FB                7. 	BRA	start
+                            8. 
+                            9. 
+                           10. 
+001008                     11. DisplayML15:
+001008 86 01               12. 	LDAA	#1
+00100A 7A 09 C2            13. 	STAA	styrord
+00100D 86 D0               14. 	LDAA	#$D0
+00100F 7A 09 C3            15. 	STAA	skrivport
+001012 86 00               16. 	LDAA	#0
+001014 7A 09 C2            17. 	STAA	styrord
+001017                     18. counter:
+001017 81 06               19. 	CMPA	#6
+001019 27 08               20. 	BEQ	is6		
+00101B                     21. 	LDAB	A,X
+00101D 7B 09 C3            22. 	STAB	skrivport
+001020 42                  23. 	INCA		;A <- A+1
+001021 20 F4               24. 	BRA	counter
+001023 C6 00               25. is6:	LDAB	#0
+001025 7B 09 C3            26. 	STAB	skrivport
+001028 C6 00               27. 	LDAB	#0
+00102A 7B 09 C3            28. 	STAB	skrivport
+00102D 3D                  29. 	RTS
+                           30. 
+00102E                     31. 	
+00102E 01 02 03 04 05 06   32. tabell:	FCB	1,2,3,4,5,6
+001034                     33. 	
+001034                     34. 	

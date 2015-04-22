@@ -6,63 +6,36 @@ File: KeyboardML15.lst
                             1. ;	KeyboardML15
                             2. ;
 001000                      3. 	ORG	$1000
-001000 CE 10 4D             4. 	LDX	#tabell
-001003 16 10 20             5. start:	JSR	DisplayML15
-001006 20 FB                6. 	BRA	start
-001008                      7. 	
-001008                      8. GetKbdML15:
-001008 16 10 10             9. 	JSR	CheckKbdML15
-00100B C1 FF               10. 	CMPB	#$FF
-00100D 27 F9               11. 	BEQ	GetKbdML15
-00100F A7                  12. 	NOP
-                           13. 
-001010                     14. CheckKbdML15:	
-001010 F6 09 C0            15. 	LDAB	$9C0
-001013 2B 08               16. 	BMI	DAV_1
-001015 37                  17. 	PSHB
-001016 F6 09 C0            18. DAV_2:	LDAB	$9C0
-001019 2A FB               19. 	BPL	DAV_2
-00101B 33                  20. 	PULB
-00101C 3D                  21. 	RTS
-00101D C6 FF               22. DAV_1:	LDAB	#$FF
-00101F 3D                  23. 	RTS
-                           24. 
-001020                     25. DisplayML15:
-001020 86 01               26. 	LDAA	#1
-001022 7A 09 C2            27. 	STAA	$9C2
-001025 86 D0               28. 	LDAA	#$D0
-001027 7A 09 C3            29. 	STAA	$9C3
-00102A 86 00               30. 	LDAA	#0
-00102C 81 06               31. qwe:	CMPA	#6
-00102E 27 0A               32. 	BEQ	asd		
-001030 36                  33. 	PSHA		;M(9C3) <- M(A+X)
-001031 33                  34. 	PULB
-001032 1A E5               35. 	ABX
-001034 7E 09 C2            36. 	STX	$9C2
-001037 42                  37. 	INCA		;A <- A+1
-001038 20 F2               38. 	BRA	qwe
-00103A C6 00               39. asd:	LDAB	#0
-00103C 7A 09 C3            40. 	STAA	$9C3
-00103F C6 00               41. 	LDAB	#0
-001041 7A 09 C3            42. 	STAA	$9C3
-001044                     43. 	
-001044                     44. 	
-001044                     45. 	
-001044                     46. 	
-001044                     47. 	
-001044                     48. 	
-001044                     49. 	
-001044                     50. 	
-001044                     51. CheckKbd_First:	
-001044 F6 09 C0            52. 	LDAB	$9C0
-001047 2B 01               53. 	BMI	First_DAV_1
-001049 3D                  54. 	RTS
-00104A                     55. First_DAV_1:
-00104A C6 FF               56. 	LDAB	#$FF
-00104C 3D                  57. 	RTS
-00104D                     58. 	
-00104D 01 02 03 04 05 06   59. tabell:	FCB	1,2,3,4,5,6
-001053                     60. 	
-                           61. 
-001053                     62. 	
-001053                     63. 		
+001000 16 10 05             4. start:	JSR	GetKbdML15
+001003 20 FB                5. 	BRA	start
+001005                      6. 	
+001005                      7. GetKbdML15:
+001005 16 10 0D             8. 	JSR	CheckKbdML15
+001008 C1 FF                9. 	CMPB	#$FF
+00100A 27 F9               10. 	BEQ	GetKbdML15
+00100C A7                  11. 	NOP
+                           12. 
+00100D                     13. CheckKbdML15:	
+00100D F6 09 C0            14. 	LDAB	$9C0
+001010 2B 08               15. 	BMI	DAV_1
+001012 37                  16. 	PSHB
+001013 F6 09 C0            17. DAV_2:	LDAB	$9C0
+001016 2A FB               18. 	BPL	DAV_2
+001018 33                  19. 	PULB
+001019 3D                  20. 	RTS
+00101A C6 FF               21. DAV_1:	LDAB	#$FF
+00101C 3D                  22. 	RTS
+00101D                     23. 	
+00101D                     24. 	
+00101D                     25. CheckKbd_First:	
+00101D F6 09 C0            26. 	LDAB	$9C0
+001020 2B 01               27. 	BMI	First_DAV_1
+001022 3D                  28. 	RTS
+001023                     29. First_DAV_1:
+001023 C6 FF               30. 	LDAB	#$FF
+001025 3D                  31. 	RTS
+                           32. 
+001026                     33. 	
+                           34. 
+001026                     35. 	
+001026                     36. 		
