@@ -1,0 +1,58 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Subroutines.lst
+                            1. ;Subroutine Outzero
+---- File: "F:\Dokument\GitHub\Eterm6\Lab2\Subroutines.asm"
+       0000 0600            2. InPort		EQU	$600
+       0000 0400            3. OutPort		EQU	$400
+                            4. 
+                            5. 		USE	../Lab1/Labdefs.asm
+---- File: "..\Lab1\Labdefs.asm"
+000000                      6. #ifdef		SIMULATOR
+                           12. #else
+       0000 0004           13. DelayConst	EQU	$04	;konstant för laborationssystemet
+                           14. #endif
+                           15. 
+                           16. 
+                           17. ; Adress till omkopplare och display
+       0000 0600           18. DipSwitch	EQU	$0600
+       0000 0400           19. HexDisplay	EQU	$0400
+                           20. ;Adress till borrmaskinens styrregister
+       0000 0400           21. DrillControl	EQU	$0400
+                           22. 
+                           23. ;.....borrmaskinens statusregister
+       0000 0401           24. DrillStatus	EQU	$0401001000                     25. 		ORG	$1000
+---- File: "F:\Dokument\GitHub\Eterm6\Lab2\Subroutines.asm"
+001000                     26. start:
+001000 C6 FF               27. 		LDAB	#$FF
+001002 7B 10 2E            28. 		STAB	DCShadow
+001005                     29. 		
+001005 F6 06 00            30. 		LDAB	InPort
+001008                     31. 		
+001008 16 10 14            32. 		JSR	Outzero
+00100B                     33. 		
+00100B B6 10 2E            34. 		LDAA	DCShadow
+00100E 7A 04 00            35. 		STAA	OutPort
+001011 06 10 00            36. 		JMP	start
+001014                     37. Outzero:	
+001014 C1 07               38. 		CMPB	#7
+001016 2A 15               39. 		BPL	Outzero_done
+001018 86 01               40. 		LDAA	#1
+00101A C1 01               41. 		CMPB	#1
+00101C 27 05               42. 		BEQ	bitclear
+00101E                     43. 		
+00101E                     44. loop:	
+00101E 48                  45. 		LSLA
+00101F 18 17               46. 		CBA	
+001021 26 FB               47. 		BNE	loop
+001023                     48. 		
+001023                     49. bitclear:	
+001023 41                  50. 		COMA
+001024 B4 10 2E            51. 		ANDA	DCShadow
+001027 7A 10 2E            52. 		STAA	DCShadow
+00102A 7A 04 00            53. 		STAA	DrillControl
+00102D                     54. 		
+00102D 3D                  55. Outzero_done:	RTS	
+00102E 00                  56. DCShadow	RMB	1	;DrillControl Shadow
